@@ -1,6 +1,8 @@
 from flask import Blueprint
 from init import db, bcrypt
 from models.user import User
+from models.order import Order
+from datetime import date
 
 db_commands = Blueprint('db',__name__)
 
@@ -30,6 +32,31 @@ def seed_tables():
     ]
 
     db.session.add_all(users)
+    
+    orders = [
+        Order(
+            date=date.today(),
+            message='Order testing',
+            status='Processing',
+            user=users[0]
+        ),
+        Order(
+            date=date.today(),
+            message='Order testing',
+            status='In transit',
+            user=users[1]
+        ),
+        Order(
+            date=date.today(),
+            message='Order testing',
+            status='Delivered',
+            user=users[0]
+        )
+    ]
+
+    db.session.add_all(orders)
+
     db.session.commit()
 
     print("Tables seeded")
+

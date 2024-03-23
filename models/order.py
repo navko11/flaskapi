@@ -6,7 +6,7 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date)
-    message = db.Column(db.text)
+    message = db.Column(db.Text)
     status = db.Column(db.String)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -16,7 +16,7 @@ class Order(db.Model):
 class OrderSchema(ma.Schema):
 
     user = fields.Nested('UserSchema', only = ['email'])
-    
+
     class Meta:
         fields = ('id', 'date', 'message', 'status', 'user1')
 
