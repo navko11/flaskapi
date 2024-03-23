@@ -18,7 +18,8 @@ class OrderSchema(ma.Schema):
     user = fields.Nested('UserSchema', only = ['email'])
 
     class Meta:
-        fields = ('id', 'date', 'message', 'status', 'user1')
+        fields = ('id', 'date', 'message', 'status', 'user')
+        ordered = True
 
-card_schema = OrderSchema()
-cards_schema = OrderSchema(many=True)
+Order_schema = OrderSchema()
+orders_schema = OrderSchema(many=True)
