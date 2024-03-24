@@ -43,9 +43,38 @@ R6. An ERD for your app
 
 R7. Detail any third party services that your app will use
 
+The third party services used are imported as libraries in the code found in requirements.txt 
+some of the main services are listed to be:
+
+Flask - A web framework for building web applications in python
+SQLAlchemy - An SQL toolkit and ORM library for python constructs
+Marshmallow - Serialize and deserializes objects and converts them into python objects 
+Bcrypt - Secures passwords by hashing them for increased security
+
+Insomnia - An API client used for testing http requests (GET, POST, PUT, PATCH, DELETE)
+
+
 R8. Describe your projects models in terms of the relationships they have with each other
+
+My project is the simplest form of the idea which only has 3 models:
+
+Users - The users model is the start of the ERD and holds a one to many relationship with the orders model, where one user can have many orders. 
+Orders - The order model holds a one to many relationship with the items model, where one order can have many items.
+Items - The items model is at the and of the ERD and as such holds the "many" relation to the "one" relation of orders.
+
 
 R9. Discuss the database relations to be implemented in your application 
 
+
 R10. Describe the way tasks are allocated and tracked in your project
+
+Tasks are created and then recorded depending on the request given (GET, POST, PUT/PATCH, DELETE).
+
+GET - Will collect all the seeded data and any additional instances created.  
+POST - Creates a new instance in the route where the fields are set and requested. The number of POST requests can be tracked by the enumeration of id's being created
+PUT/PATCH - Updates any existing fields if necessary ex. status update from "in transit" to "delivered"
+DELETE - Deletes an instance for redundance purposes.
+
+
+
 
