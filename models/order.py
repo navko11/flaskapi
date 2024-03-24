@@ -10,7 +10,6 @@ class Order(db.Model):
     status = db.Column(db.String)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-
     user = db.relationship('User', back_populates='orders')
 
 class OrderSchema(ma.Schema):
@@ -21,5 +20,5 @@ class OrderSchema(ma.Schema):
         fields = ('id', 'date', 'message', 'status', 'user')
         ordered = True
 
-Order_schema = OrderSchema()
+order_schema = OrderSchema()
 orders_schema = OrderSchema(many=True)
