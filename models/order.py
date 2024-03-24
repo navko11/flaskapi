@@ -19,7 +19,7 @@ class OrderSchema(ma.Schema):
 
     user = fields.Nested('UserSchema', only = ['email'])
 
-    items = fields.List(fields.Nested('ItemSchema', exclude=["Order"]))
+    items = fields.List(fields.Nested('ItemSchema', exclude=["order"]))
 
     class Meta:
         fields = ('id', 'date', 'message', 'status', 'user', 'items')

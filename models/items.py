@@ -15,7 +15,7 @@ class Item(db.Model):
 
 class ItemSchema(ma.Schema):
     
-    order = fields.Nested('OrderSchema', exclude=["Item"])
+    order = fields.Nested('OrderSchema', exclude=['items'])
 
     class Meta:
         fields = ('id', 'description', 'quantity', 'price', 'order')

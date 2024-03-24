@@ -64,3 +64,8 @@ def update_order(order_id):
         return order_schema.dump(order)
     else:
         return {"error": f"Order {order_id} does not exist"}, 404
+    
+
+# @orders_bp.route("<int:order_id>/items", methods=["POST"])
+# @jwt_required()
+# def create_item(order_id):
