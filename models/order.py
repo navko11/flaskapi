@@ -12,12 +12,16 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', back_populates='orders')
 
+    items = db.relationship('Item', back_populates="orders", cascade='all, delete')
+
 class OrderSchema(ma.Schema):
 
     user = fields.Nested('UserSchema', only = ['email'])
 
+    items = fields.List(fields.Nested('ItemSchema'), exclude=["Order"])
+
     class Meta:
-        fields = ('id', 'date', 'message', 'status', 'user')
+        fields = ('id', 'date', 'message', 'status', 'user', 'items')
         ordered = True
 
 order_schema = OrderSchema()
