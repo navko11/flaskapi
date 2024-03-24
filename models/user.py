@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
-    orders = db.relationship('Order', back_populates='user', cascade='all, delete')
+    orders = db.relationship('Order', back_populates="user", cascade='all, delete')
 
 
 #Schema to deserialize

@@ -2,6 +2,7 @@ from flask import Blueprint
 from init import db, bcrypt
 from models.user import User
 from models.order import Order
+from models.items import Item
 from datetime import date
 
 db_commands = Blueprint('db',__name__)
@@ -55,6 +56,29 @@ def seed_tables():
     ]
 
     db.session.add_all(orders)
+
+    items = [
+        Item(
+            description="Wood",
+            quantity="50",
+            price="$10",
+            order=orders[0]
+        ),
+        Item(
+            description="Iron",
+            quantity="150",
+            price="$20",
+            order=orders[1]
+        ),
+        Item(
+            description="Plastic",
+            quantity="500",
+            price="$5",
+            order=orders[2]
+        )
+    ]
+
+    db.session.add_all(items)
 
     db.session.commit()
 
