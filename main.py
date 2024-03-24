@@ -1,6 +1,7 @@
 from flask import Flask
 from init import db, ma, bcrypt, jwt
 import os
+from marshmallow.exceptions import ValidationError
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +18,10 @@ def create_app():
     ma.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
+    
+    @app.errorhandler(ValidationError) #Function to handle validation error anyhere on the app
+    def validation_error(error):
+        return {"error": error.messages}, 400
 
     from controllers.cli_controller import db_commands
     app.register_blueprint(db_commands)

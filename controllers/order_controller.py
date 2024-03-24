@@ -31,7 +31,7 @@ def get_order(order_id):
 @orders_bp.route("/", methods=["POST"])
 @jwt_required() #To identify which user id is accessing this route
 def create_order():
-    body_data = request.get_json()
+    body_data = order_schema.load(request.get_json()) 
     order = Order(
         date = date.today(),
         message = body_data.get('message'),
@@ -57,7 +57,7 @@ def delete_order(order_id):
 
 @orders_bp.route("/<int:order_id>", methods=["PUT", "PATCH"])
 def update_order(order_id):
-    body_data = request.get_json()
+    body_data = order_schema.load(request.get_json(), partial=True) #To allow other updates without requiring message
     stmt = db.select(Order).filter_by(id=order_id)
     order = db.session.scalar(stmt)
     if order:
