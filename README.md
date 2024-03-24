@@ -34,6 +34,285 @@ When interacting with the database it is also more optimized while using an ORM,
 ___________________________________________
 R5. Document all endpoints for your API
 
+order controller
+GET/orders
+This initial request will return the data that was seeded in the database
+
+```[
+	{
+		"id": 1,
+		"date": "2024-03-24",
+		"message": "Order testing",
+		"status": "Processing",
+		"user": {
+			"email": "shopadmin@email.com"
+		},
+		"items": [
+			{
+				"id": 1,
+				"description": "Wood",
+				"quantity": 50,
+				"price": "$10"
+			}
+		]
+	},
+	{
+		"id": 2,
+		"date": "2024-03-24",
+		"message": "Order testing",
+		"status": "In transit",
+		"user": {
+			"email": "shopstaff@email.com"
+		},
+		"items": [
+			{
+				"id": 2,
+				"description": "Iron",
+				"quantity": 150,
+				"price": "$20"
+			}
+		]
+	},
+	{
+		"id": 3,
+		"date": "2024-03-24",
+		"message": "Order testing",
+		"status": "Delivered",
+		"user": {
+			"email": "shopadmin@email.com"
+		},
+		"items": [
+			{
+				"id": 3,
+				"description": "Plastic",
+				"quantity": 500,
+				"price": "$5"
+			}
+		]
+	}
+] 
+```
+
+GET/orders/<order_id> 
+example /orders/1 will return order with id 1
+```
+{
+	"id": 1,
+	"date": "2024-03-24",
+	"message": "Order testing",
+	"status": "Processing",
+	"user": {
+		"email": "shopadmin@email.com"
+	},
+	"items": [
+		{
+			"id": 1,
+			"description": "Wood",
+			"quantity": 50,
+			"price": "$10"
+		}
+	]
+}
+```
+POST/order
+Creates new order with objects in json
+```
+{
+	"message": "updated",
+	"status": "processing"
+}
+```
+The above will be added to make a new order
+```
+{
+	"id": 4,
+	"date": "2024-03-24",
+	"message": "updated",
+	"status": "processing",
+	"user": {
+		"email": "shopadmin@email.com"
+	},
+	"items": []
+}
+```
+PUT, PATCH/order/<order_id>
+```
+{
+	"message": "status update",
+	"status": "delayed"
+}
+```
+above will be applied to update the record on order id 4
+```
+{
+	"id": 4,
+	"date": "2024-03-24",
+	"message": "updated",
+	"status": "processing",
+	"user": {
+		"email": "shopadmin@email.com"
+	},
+	"items": []
+}
+```
+DELETE/order/<order_id>
+delete order with id 4
+```
+{
+	"message": "Order 4 has been deleted"
+}
+```
+_______________
+Item controller
+
+POST/<order_id>/items
+POST/1/items
+add items to order id 1
+```
+	{
+		"id": 1,
+		"date": "2024-03-24",
+		"message": "Order testing",
+		"status": "Processing",
+		"user": {
+			"email": "shopadmin@email.com"
+		},
+		"items": [
+			{
+				"id": 1,
+				"description": "Wood",
+				"quantity": 50,
+				"price": "$10"
+			}
+		]
+	}
+```
+Create order with the new fields below
+```
+{
+	"description": "steel",
+	"quantity": "20",
+	"price": "$50"
+}
+```
+After creating item order, the id will now have 2 item orders with id 1 and 4
+```
+{
+	"id": 1,
+	"date": "2024-03-24",
+	"message": "Order testing",
+	"status": "Processing",
+	"user": {
+		"email": "shopadmin@email.com"
+	},
+	"items": [
+		{
+			"id": 1,
+			"description": "Wood",
+			"quantity": 50,
+			"price": "$10"
+		},
+		{
+			"id": 4,
+			"description": "steel",
+			"quantity": 20,
+			"price": "$50"
+		}
+	]
+}
+```
+PUT,PATCH/<order_id>/items/<items_id>
+order/1/items/1
+update existing items in order with item id 1 with
+```
+{
+	"description": "copper",
+	"quantity": "100",
+	"price": "$500"
+}
+```
+updated item id 1 now changed with fields specified above 
+```
+{
+	"id": 1,
+	"date": "2024-03-24",
+	"message": "Order testing",
+	"status": "Processing",
+	"user": {
+		"email": "shopadmin@email.com"
+	},
+	"items": [
+		{
+			"id": 4,
+			"description": "steel",
+			"quantity": 20,
+			"price": "$50"
+		},
+		{
+			"id": 1,
+			"description": "copper",
+			"quantity": 100,
+			"price": "$500"
+		}
+	]
+}
+```
+DELETE/<order_id>/items/<items_id>
+order/1/items/1
+```
+{
+	"message": "Item with id 1 has been deleted"
+}
+```
+item id 1 now deleted from object
+```
+{
+	"id": 1,
+	"date": "2024-03-24",
+	"message": "Order testing",
+	"status": "Processing",
+	"user": {
+		"email": "shopadmin@email.com"
+	},
+	"items": [
+		{
+			"id": 4,
+			"description": "steel",
+			"quantity": 20,
+			"price": "$50"
+		}
+	]
+}
+```
+_______________
+auth_controller
+
+POST/auth/register
+create new email and password
+```
+{
+	"email": "new_member@email.com",
+	"password": "abcdefg"
+}
+```
+will return 
+```
+{
+	"id": 3,
+	"email": "new_member@email.com",
+	"is_admin": false
+}
+```
+
+POST/auth/login
+will create a jwt token for authentication
+```
+{
+	"email": "new_member@email.com",
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxMTI4NDQyNSwianRpIjoiNzg4NDQ1ODQtZWE0Mi00Mjc0LThlZmYtZmU0YTcxNzEwMzBjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjMiLCJuYmYiOjE3MTEyODQ0MjUsImNzcmYiOiJjZjdjMzdjOC1mNzVjLTQ3YzQtYmFkMC0wOWM5NTgxYjZhOWEiLCJleHAiOjE3MTEzNzA4MjV9.2FDJSrUcNQa0dPwpZkM93XHqh7lUiGOM0JYMB3Agc9s",
+	"is_admin": false
+}
+```
 
 ___________________________________________
 R6. An ERD for your app
