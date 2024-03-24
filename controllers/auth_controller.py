@@ -28,7 +28,7 @@ def auth_register():
 
         return user_schema.dump(user), 201
             
-
+    #Email must be input and it already exists it will prompt to try an email that does not yet exist 
     except IntegrityError as err:
         if err.orig.pgcode == errorcodes.NOT_NULL_VIOLATION:
             return {"error": f"The {err.orig.diag.column_name} is required"}

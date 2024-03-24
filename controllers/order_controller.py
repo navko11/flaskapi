@@ -1,7 +1,8 @@
 from flask import Blueprint, request
 from init import db
 from models.order import Order, orders_schema, order_schema
-from models.items import Item, item_schema
+from models.user import User
+
 from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from controllers.item_controller import items_bp
@@ -29,9 +30,9 @@ def get_order(order_id):
     
 
 @orders_bp.route("/", methods=["POST"])
-@jwt_required() #To identify which user id is accessing this route
+@jwt_required()
 def create_order():
-    body_data = order_schema.load(request.get_json()) 
+    body_data = order_schema.load(request.get_json())
     order = Order(
         date = date.today(),
         message = body_data.get('message'),
@@ -67,4 +68,6 @@ def update_order(order_id):
         return order_schema.dump(order)
     else:
         return {"error": f"Order {order_id} does not exist"}, 404
+    
+        
     
